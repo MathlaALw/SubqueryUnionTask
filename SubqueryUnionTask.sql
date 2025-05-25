@@ -81,3 +81,29 @@ FROM Trainees T
 INNER JOIN Applicants A ON T.Email = A.Email;
 
 
+
+
+-- Part 2: DROP, DELETE, TRUNCATE Observation
+-- Let’s test destructive commands.
+-- Write your observations after each command.
+
+
+-- 4. Try DELETE FROM Trainees WHERE Program = 'Outsystems'.
+-- o Check if the table structure still exists.
+DELETE FROM Trainees WHERE Program = 'Outsystems';
+
+-- Observation: Row deleted, but table and other data remain.
+
+-- 5. Try TRUNCATE TABLE Applicants.
+-- o What happens to the data? Can you roll it back?
+TRUNCATE TABLE Applicants;
+
+-- Observation: All rows removed quickly. Cannot roll back in most DBs (non-logged operation).
+
+-- 6. Try DROP TABLE Applicants.
+-- o What happens if you run a SELECT after that?
+DROP TABLE Applicants;
+-- Observation: Table is permanently removed. SELECT after DROP gives an error.
+-- Example:
+-- SELECT * FROM Applicants; -- Will fail
+
