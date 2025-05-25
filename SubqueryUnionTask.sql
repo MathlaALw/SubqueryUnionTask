@@ -185,7 +185,8 @@ BEGIN TRY
 END TRY
 BEGIN CATCH
     ROLLBACK; -- Reverts all changes if any error occurs
-    PRINT 'Transaction failed. All changes rolled back.';
+    select ERROR_LINE() ,ERROR_MESSAGE(), ERROR_NUMBER()
+
 END CATCH;
 
 -- 6. Add this logic:
@@ -208,8 +209,7 @@ BEGIN TRY
 END TRY
 BEGIN CATCH
     ROLLBACK; -- Undo both inserts
-    PRINT 'Error occurred. Transaction rolled back.';
-    PRINT ERROR_MESSAGE(); -- Optional: shows the actual error
+    select ERROR_LINE() ,ERROR_MESSAGE(), ERROR_NUMBER()
 END CATCH;
 
 ----------------
