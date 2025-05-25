@@ -1,17 +1,17 @@
--- Topics:
+ï»¿-- Topics:
 -- 1. UNION / UNION ALL
 -- 2. DROP vs DELETE vs TRUNCATE
--- 3. Subqueries (exploratory task – they search and try it)
+-- 3. Subqueries (exploratory task â€“ they search and try it)
 -- 4. Transaction & Batch Script (exploratory and guided)
 -- 5. *Hands-on comparison with real effect on data
 -- Practice Scenario: Training & Job Application System
 -- Your institute is managing two main datasets:
--- • Trainees: People who complete training at your institute.
--- • Job Applicants: External applicants who apply directly to job posts.
+-- â€¢ Trainees: People who complete training at your institute.
+-- â€¢ Job Applicants: External applicants who apply directly to job posts.
 -- Your goal is to:
--- • Compare the data of both groups.
--- • Clean or restructure the database safely.
--- • Explore more advanced SQL topics on your own (subqueries, transactions).
+-- â€¢ Compare the data of both groups.
+-- â€¢ Clean or restructure the database safely.
+-- â€¢ Explore more advanced SQL topics on your own (subqueries, transactions).
 
 -- create database 
 
@@ -84,7 +84,7 @@ INNER JOIN Applicants A ON T.Email = A.Email;
 
 
 -- Part 2: DROP, DELETE, TRUNCATE Observation
--- Let’s test destructive commands.
+-- Letâ€™s test destructive commands.
 -- Write your observations after each command.
 
 
@@ -109,7 +109,7 @@ DROP TABLE Applicants;
 
 
 -- Part 3: Self-Discovery & Applied Exploration
--- In this section, you’ll independently research, experiment, and apply advanced SQL concepts.
+-- In this section, youâ€™ll independently research, experiment, and apply advanced SQL concepts.
 -- Follow the guided prompts below.
 -- Subquery Exploration
 -- Goal: Understand what a subquery is and how it's used inside SQL commands.
@@ -145,3 +145,71 @@ WHERE Email IN (SELECT Email FROM Applicants);
 DELETE FROM Applicants WHERE Email IN ( SELECT Email FROM Trainees );
 
 ------
+
+-- Batch Script & Transactions
+-- Goal: Understand how to safely execute multiple SQL statements as a unit.
+-- 4. Research:
+-- o What is a SQL transaction?
+
+-- A SQL transaction is a group of one or more SQL operations executed as a single logical unit of work.
+-- Transactions ensure data integrity by guaranteeing that either all operations succeed (COMMIT) or none take effect (ROLLBACK).
+
+
+-- o How to write transaction blocks in your database tool (BEGIN TRANSACTION, COMMIT, ROLLBACK)?
+BEGIN TRANSACTION;
+
+-- SQL statements
+
+COMMIT; -- saves the changes
+-- or
+ROLLBACK; -- undoes all the changes in the block
+
+-- 5. Task:
+-- o Write a script that:
+-- â–ª Starts a transaction
+-- â–ª Tries to insert two new applicants
+-- â–ª The second insert should have a duplicate ApplicantID (to force failure)
+-- â–ª Rollback the whole transaction if any error occurs
+
+BEGIN TRANSACTION;
+
+BEGIN TRY
+    INSERT INTO Applicants (ApplicantID, FullName, Email, Source, AppliedDate)
+    VALUES (104, 'Zahra Al Amri', 'zahra.a@example.com', 'Referral', '2025-05-10');
+
+    -- This insert will fail due to duplicate ApplicantID
+    INSERT INTO Applicants (ApplicantID, FullName, Email, Source, AppliedDate)
+    VALUES (104, 'Error User', 'error@example.com', 'Website', '2025-05-11');
+
+    COMMIT; -- Only reached if both inserts succeed
+END TRY
+BEGIN CATCH
+    ROLLBACK; -- Reverts all changes if any error occurs
+    PRINT 'Transaction failed. All changes rolled back.';
+END CATCH;
+
+-- 6. Add this logic:
+-- BEGIN TRANSACTION;
+-- INSERT INTO Applicants VALUES (104, 'Zahra Al Amri', 'zahra.a@example.com', 'Referral', '2025-05-10');
+-- INSERT INTO Applicants VALUES (104, 'Error User', 'error@example.com', 'Website', '2025-05-11'); -- Duplicate IDCOMMIT;
+-- Or use ROLLBACK if needed
+
+
+BEGIN TRANSACTION;
+
+BEGIN TRY
+    INSERT INTO Applicants 
+    VALUES (104, 'Zahra Al Amri', 'zahra.a@example.com', 'Referral', '2025-05-10');
+
+    INSERT INTO Applicants 
+    VALUES (104, 'Error User', 'error@example.com', 'Website', '2025-05-11'); -- Duplicate ID
+
+    COMMIT; -- If both inserts succeed
+END TRY
+BEGIN CATCH
+    ROLLBACK; -- Undo both inserts
+    PRINT 'Error occurred. Transaction rolled back.';
+    PRINT ERROR_MESSAGE(); -- Optional: shows the actual error
+END CATCH;
+
+----------------
