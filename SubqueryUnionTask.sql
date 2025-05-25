@@ -213,3 +213,31 @@ BEGIN CATCH
 END CATCH;
 
 ----------------
+
+-- ACID Properties Exploration
+-- Goal: Learn the theory behind reliable transactions.
+-- 7. Research and summarize each of the ACID properties:
+-- o Atomicity
+--  - Ensures that all parts of a transaction are completed successfully or none are applied. A transaction is treated as a single, indivisible unit of work.
+-- o Consistency
+--  - Ensures that a transaction brings the database from one valid state to another, maintaining all defined rules and constraints.
+-- o Isolation
+--  - Ensures that concurrent transactions do not interfere with each other. Each transaction behaves as if it's the only one in the system.
+-- o Durability
+--  - Ensures that once a transaction is committed, its changes are permanent, even in the case of a system crash or power failure.
+
+
+-- 8. For each property, write a real-life example that explains it in your own words
+
+-- 1. Atomicity
+-- Example: You send money via a banking app either the money leaves your account and reaches the other person, or nothing happens at all.
+
+-- 2. Consistency
+-- Example: A shopping website won’t let you order more items than are in stock — it always keeps data valid.
+
+-- 3. Isolation
+-- Example: Two people trying to book the same seat only one gets it, the system handles them one at a time.
+
+-- 4. Durability
+-- Example: You get a payment confirmation, and even if the server crashes, the transaction is still saved.
+
