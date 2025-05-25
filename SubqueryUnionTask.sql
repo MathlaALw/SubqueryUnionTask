@@ -107,3 +107,41 @@ DROP TABLE Applicants;
 -- Example:
 -- SELECT * FROM Applicants; -- Will fail
 
+
+-- Part 3: Self-Discovery & Applied Exploration
+-- In this section, you’ll independently research, experiment, and apply advanced SQL concepts.
+-- Follow the guided prompts below.
+-- Subquery Exploration
+-- Goal: Understand what a subquery is and how it's used inside SQL commands.
+
+
+-- 1. Research:
+-- o What is a subquery in SQL?
+-- * A subquery is a query nested inside another SQL query. It returns data that can be used by the outer (main) query. 
+
+-- o Where can we use subqueries? (e.g., in SELECT, WHERE, FROM)
+-- * Subqueries can be used in several parts of an SQL statement:
+
+-- 1. SELECT (to return a value for each row)
+
+-- 2. FROM (as a derived table or inline view)
+
+-- 3. WHERE (commonly used to filter rows based on results from another query)
+
+-- 4. HAVING (for filtering aggregated data)
+use SubqueryUnionTask
+
+-- 2. Task:
+-- o Write a query to find all trainees whose emails appear in the applicants table.
+-- o You must use a subquery inside a WHERE clause.
+SELECT *
+FROM Trainees
+WHERE Email IN (SELECT Email FROM Applicants);
+
+-- 3. Extra Challenge:
+-- o Write a DML statement (like UPDATE or DELETE) that uses a subquery in the WHERE clause.
+-- o Example: Delete all applicants whose email matches someone in the trainees table.
+
+DELETE FROM Applicants WHERE Email IN ( SELECT Email FROM Trainees );
+
+------
