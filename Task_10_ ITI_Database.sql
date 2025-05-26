@@ -67,14 +67,14 @@ AS
 RETURN (
     SELECT 
         D.Dept_Name, 
-        E.Emp_Name AS ManagerName, 
-        E.Hire_Date
+        Ins.Ins_Name AS ManagerName, 
+        D.Manager_hiredate
     FROM 
         Department D
     JOIN 
-        Employee E ON D.Mgr_Id = E.Emp_Id
+        Instructor Ins ON D.Dept_Id = Ins.Dept_Id
     WHERE 
-        E.Emp_Id = @MgrID
+        Ins.Ins_Id = @MgrID
 )
 
 -- 6.  Create multi-statements table-valued function that takes a string 
